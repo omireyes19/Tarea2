@@ -1,0 +1,143 @@
+---
+title: "Tarea 2"
+author: "Omar Reyes Villa 127131"
+output: html_document
+---
+
+```{r Paquetes}
+library(datasets)
+```
+
+### Pregunta 1
+
+Esta base de datos recolecta informacion sobre la longitud y ancho del sepalo y petalo en 150 flores iris, 50 de cada una de las siguientes especies: setosa, versicolor y virginica.
+
+### Pregunta 2
+```{r}
+str(iris)
+
+c(class(iris[,1]),class(iris[,2]),class(iris[,3]),class(iris[,4]),class(iris[,5]))  
+
+```
+Como se puede ver, la base de datos _iris_ cuenta con 150 objetos de 5 variables: __largo del sepalo__, __ancho del sepalo__, __largo del petalo__, __ancho del petalo__ y __especies__. De las cuales, las primeras 4 son de tipo _numeric_ y la ultima de tipo _factor_, por lo tanto R reconoce a _iris_ como un _data.frame_ al ser una matriz con diferentes tipos de variables.
+
+### Pregunta 3
+```{r}
+sum(is.na(iris))
+
+```
+La base de datos no tiene ningun valor faltante
+
+### Pregunta 4
+```{r}
+X<-iris[,1:4]
+
+colSums(X)
+
+colMeans(X)
+
+```
+
+### Pregunta 5
+```{r}
+
+sapply(X, sum)==colSums(X)
+
+sapply(X, mean)==colMeans(X)
+
+
+```
+Por lo que verificamos que los resultados son correctos.
+
+### Pregunta 6
+
+Los indices o numero de renglon que cumplen con la propiedad son:
+
+```{r}
+des<-iris$Sepal.Length >= 5.84
+
+vector.indices<-which(des)
+
+vector.indices
+
+```
+
+### Pregunta 7
+
+```{r}
+vector.valores<-iris$Sepal.Length[vector.indices]
+
+vector.resultados<-c("Suma"=sum(vector.valores),"Promedio"=mean(vector.valores))
+
+vector.resultados
+```
+
+### Pregunta 8
+
+```{r}
+subset(iris, Species == "setosa" & Sepal.Length > 5.4)
+
+```
+
+### Pregunta 9
+
+```{r}
+subset(iris, Species %in% c("setosa","virginica") & Sepal.Length > 5.4)
+
+```
+
+### Pregunta 10
+
+```{r}
+write.table(tail(iris), file = "UltimasObs.csv", sep = ",", row.names = FALSE)
+
+```
+
+### Pregunta 11
+
+```{r}
+cuadratica <- function(a, b, c){
+  disc=b^2-4*a*c
+  if(disc<0) {
+    print("No existe solucion en los reales")
+  } else if(disc==0) {
+    return(-b/(2*a))
+  } else {
+    x1<-(-b+sqrt(disc))/(2*a)
+    x2<-(-b-sqrt(disc))/(2*a)
+    x<-c(x1,x2)
+    return(x)
+  }
+}
+
+cuadratica(a=3,b=-1,c=-2)
+
+cuadratica(a=9,b=12,c=4)
+
+cuadratica(a=1,b=1,c=1)
+```
+
+### Pregunta 12
+
+```{r}
+anualidad <- function(n, i, P=1, Vencida = TRUE) {
+  suma <- 0
+  for (j in 1:n){
+    suma<-suma+(1/(1+i))^j
+  }
+  an.ven<-P*suma
+  if (Vencida == TRUE){
+    return(an.ven)
+  }
+  else{
+    return(an.ven*(i+1))
+  }
+}
+
+anualidad(n=15,i=0.035)
+
+anualidad(n=15,i=0.035,P=5000)
+
+anualidad(n=15,i=0.035,P=5000,Vencida = FALSE)
+
+```
